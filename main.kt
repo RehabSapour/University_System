@@ -819,11 +819,8 @@ fun main(){
         println("\t\t\t\t\t\t\t\t\t\t\t\t  Hello in system University")
         println("\t\t\t\t\t\t\t\t\t\t\t\t ______________________________")
         println("\t\t\t\t\t\t\t\t1-Sign Up As Student\t\t\t\t\t\t\t\t2-Login as student"  )
-       // println("2-Login as student")
         println("\t\t\t\t\t\t\t\t3-Sign Up As Instructor\t\t\t\t\t\t\t\t4-Login As Instructor ")
-       // println("4-Login As Instructor ")
         println("\t\t\t\t\t\t\t\t5-Sign Up As Employee\t\t\t\t\t\t\t\t6-Login As Employee")
-      //  println("6-Login As Employee ")
         println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t7-Exit")
         println("Enter Your Choise (1/7)")
         val choise = readln().toIntOrNull()?:return
