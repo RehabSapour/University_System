@@ -1,5 +1,5 @@
 # University_System_project
-- This project is a simulation of the university system using some object-oriented programming concepts that I learned in Kotlin
+- This project is a simulation of the university system using some object-oriented programming concepts that I learned in Kotlin such as Classes and Objects ,Constructors,Polymorphism ,Inheritance ,Abstraction ,Interfaces,...
 # Project Feature
 - Student section
 - Instructor section
