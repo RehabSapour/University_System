@@ -342,7 +342,7 @@ class Instructor :Person(),validation {
         println(horizontalLine)
 
         for (instructor in Instructors) {
-            val instructorData = "| %4d | %-15s | %3d | %-17s | %-15s | %20 | %-20s | %-18s |".format(
+            val instructorData = "| %4d | %-15s | %3d | %-17s | %-15s | %20.2f  | %-20s | %-18s |".format(
                 i,
                 instructor.id,
                 instructor.age,
@@ -808,7 +808,7 @@ class Sysytem{
         emp.searchAndGet(eid)
     }
     fun RemoveEmployee(){
-        println("Enter Student Id You Want To delete : ")
+        println("Enter Employee Id You Want To delete : ")
         var employee1:Int= readln().toInt()
         emp.remove(employee1)
 
@@ -875,8 +875,6 @@ fun main(){
                         else-> println("Invalid Value Try Again ..")
                     }
                 }
-
-
 
             }
             2->{
