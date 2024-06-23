@@ -37,8 +37,6 @@ interface validation{
     val registerEmails: MutableList<String>
     var isLoggedIn: Boolean
 
-
-    // val courses:MutableMap<String,String>
     fun isEmailUnique(email:String):Boolean{
         return email !in registerEmails
     }
@@ -112,25 +110,37 @@ class Student:Person(),validation{
         }
     }
 
-    fun viewStudent(){
-        var i=1
-        if(addStudent.isEmpty()){
-            println("No data Entered Yet !")
-            return
-        }
-        for(it in addStudent){
-            println("Student Details number $i-> ")
-            println("- Student id : ${it.id}")
-            println("- Student Name : ${it.name}")
-            println("- Student age: ${it.age}")
-            println("- Student Email : ${it.Email}")
-            println("- Student address : ${it.address}")
-            println("- Student gpa : ${it.gpa}")
-            println("- Student Faculty : ${it.Faculty}")
-            i++
-            println("_____________________________________")
-        }
-    }
+  fun viewStudent() {
+      var i = 1
+      if (addStudent.isEmpty()) {
+          println("No data entered yet!")
+          return
+      }
+
+      val horizontalLine = "+-----------+-----------------+-----+-------------------+----------------------+-----+--------------------+"
+      val header = "No. | Student ID |      Name       | Age |       Email       |       Address        | GPA |      Faculty      |"
+
+      println(horizontalLine)
+      println(header)
+      println(horizontalLine)
+
+      for (student in addStudent) {
+          val studentData = "%3d | %10s | %15s | %3s | %18s | %21s | %.2f | %10s |".format(
+              i,
+              student.id,
+              student.name,
+              student.age.toString(),
+              student.Email,
+              student.address,
+              student.gpa,
+              student.Faculty
+          )
+          println(studentData)
+          i++
+      }
+
+      println(horizontalLine)
+  }
     override fun searchAndGet(num: Int) {
         for(search in addStudent){
             if(search.id==num){
@@ -280,7 +290,7 @@ class Instructor :Person(),validation {
             Instructor1.Email = readLine() ?: return
         }
         println("Enter Your Salary : ")
-        Instructor1.salary = readln().toDouble()
+        Instructor1.salary = readln().toDoubleOrNull() ?:return
         println("Enter Your Address : ")
         Instructor1.address = readLine() ?: return
 
@@ -303,7 +313,7 @@ class Instructor :Person(),validation {
         Instructors.add(Instructor1)
         registerEmails.add(Instructor1.Email)
         courses[Instructor1.codecourse] = Instructor1.CoursesTaught
-        println("Register completed successfully")
+        println("\tRegister completed successfully")
     }
     fun DisplayCourses(){
         for(it in courses){
@@ -316,23 +326,35 @@ class Instructor :Person(),validation {
         val code1= readln()
         enrollInCourse(code1)
     }
+
     fun ViewDAta() {
         var i = 1
         if (Instructors.isEmpty()) {
-            println("There is No Instructors Yet !")
+            println("\tThere are no instructors yet!")
             return
         }
-        for (it in Instructors) {
-            println("Instructor Details number $i-> ")
-            println("- Instructor id : ${it.id}")
-            println("- Instructor Name : ${it.name}")
-            println("- Instructor age: ${it.age}")
-            println("- Instructor Email : ${it.Email}")
-            println("- Instructor salary : ${it.salary}")
-            println("- Instructor address : ${it.address}")
-            println("- Instructor course : ${it.CoursesTaught}        Course Code : ${it.codecourse}")
+
+        val horizontalLine = "+------+-----------------+-----+-------------------+-----------------+----------------------+----------------------+------------------+"
+        val header = "| No.  |   Instructor ID  | Age |       Name        |      Email      |       Salary         |       Address        |    Course Taught   |"
+
+        println(horizontalLine)
+        println(header)
+        println(horizontalLine)
+
+        for (instructor in Instructors) {
+            val instructorData = "| %4d | %-15s | %3d | %-17s | %-15s | %20 | %-20s | %-18s |".format(
+                i,
+                instructor.id,
+                instructor.age,
+                instructor.name,
+                instructor.Email,
+                instructor.salary,
+                instructor.address,
+                instructor.CoursesTaught
+            )
+            println(instructorData)
             i++
-            println("_____________________________________")
+            println(horizontalLine)
         }
     }
 
@@ -343,7 +365,7 @@ class Instructor :Person(),validation {
             isLoggedIn=true;
 
         } else {
-            println("instructor with the provided email not found.")
+            println("\tinstructor with the provided email not found.")
             isLoggedIn=false
         }
     }
@@ -358,7 +380,7 @@ class Instructor :Person(),validation {
             println("address : ${Found.address}")
             println("His course : ${Found.CoursesTaught}         code : ${Found.codecourse}")
         } else {
-            println("Instructor of Id ${num} Not founded in System !!")
+            println("\tInstructor of Id ${num} Not founded in System !!")
         }
     }
 
@@ -384,9 +406,9 @@ class Instructor :Person(),validation {
                     val newName = readLine() ?: return
                     if (!newName.isNullOrEmpty()) {
                         found.name = newName
-                        println("Name updated successfully.")
+                        println("\tName updated successfully.")
                     } else {
-                        println("Invalid input. Name not updated.")
+                        println("\tInvalid input. Name not updated.")
                     }
                 }
 
@@ -395,9 +417,9 @@ class Instructor :Person(),validation {
                     val newage = readln().toIntOrNull() ?: return
                     if (newage > 0 && newage != null) {
                         found.age = newage
-                        println("Age updated successfully.")
+                        println("\tAge updated successfully.")
                     } else {
-                        println("Invalid input. Age not updated.")
+                        println("\tInvalid input. Age not updated.")
                     }
                 }
 
@@ -408,9 +430,9 @@ class Instructor :Person(),validation {
                         registerEmails.remove(found.Email)
                         found.Email = newEmail
                         registerEmails.add(newEmail)
-                        println("Email updated successfully.")
+                        println("\tEmail updated successfully.")
                     } else {
-                        println("Invalid input. Email not updated.")
+                        println("\tInvalid input. Email not updated.")
                     }
                 }
 
@@ -419,9 +441,9 @@ class Instructor :Person(),validation {
                     val salary = readln().toDoubleOrNull()?:return
                     if (salary >= 0 && salary != null) {
                         found.salary = salary
-                        println("Salary updated successfully.")
+                        println("\tSalary updated successfully.")
                     } else {
-                        println("Invalid input. Salary not updated.")
+                        println("\tInvalid input. Salary not updated.")
                     }
                 }
 
@@ -430,9 +452,9 @@ class Instructor :Person(),validation {
                     val newadaress = readLine() ?: return
                     if (!newadaress.isNullOrEmpty()) {
                         found.address = newadaress
-                        println("address updated successfully.")
+                        println("\taddress updated successfully.")
                     } else {
-                        println("Invalid input. address not updated.")
+                        println("\tInvalid input. address not updated.")
 
                     }
                 }
@@ -443,13 +465,11 @@ class Instructor :Person(),validation {
                         val oldCourse = found.CoursesTaught
                         val oldCode = found.codecourse
                         found.CoursesTaught = newCourse
-
-                        // Update the course name in the courses map
                         courses[oldCode] = newCourse
 
-                        println("Course taught successfully updated!")
+                        println("\tCourse taught successfully updated!")
                     } else {
-                        println("Invalid input. Course not updated.")
+                        println("\tInvalid input. Course not updated.")
                     }
                 }
 
@@ -468,16 +488,16 @@ class Instructor :Person(),validation {
                         // Add the updated course to the courses map
                         courses[newCode] = oldCourse
 
-                        println("Course Code successfully updated!")
+                        println("\tCourse Code successfully updated!")
                     } else {
-                        println("Invalid input. Code of course not updated.")
+                        println("\tInvalid input. Code of course not updated.")
                     }
                 }
-                else -> println("Invalid field choice. No data updated.")
+                else -> println("\tInvalid field choice. No data updated.")
             }
 
         } else {
-            println("Student with ID $Id not found in the system.")
+            println("\tStudent with ID $Id not found in the system.")
         }
     }
 
@@ -491,9 +511,9 @@ class Instructor :Person(),validation {
             Instructors.remove(removeInstructor)
             registerEmails.remove(removeInstructor.Email)
             courses.remove(removeInstructor.codecourse)
-            println("Instructor with ID ${removeInstructor.id} removed successfully")
+            println("\tInstructor with ID ${removeInstructor.id} removed successfully")
         } else {
-            println("Instructor with ID ${Id} not found in the system To Remove ")
+            println("\tInstructor with ID ${Id} not found in the system To Remove ")
         }
     }
 }
@@ -509,10 +529,10 @@ class Employee:Person() ,validation{
     override fun login(email: String) {
         val employee = employees.find { it.Email == email }
         if (employee != null) {
-            println("Login successful!")
+            println("\tLogin successful!")
             isLoggedIn=true
         } else {
-            println("Employee with the provided email not found.")
+            println("\tEmployee with the provided email not found.")
             isLoggedIn=false
         }
     }
@@ -541,28 +561,36 @@ class Employee:Person() ,validation{
         emp.hireDate= LocalDate.now()
         employees.add(emp)
         registerEmails.add(emp.Email)
-        println("Register completed successfully")
-
+        println("\tRegister completed successfully")
     }
-    fun viewdata(){
+    fun viewdata() {
         var i = 1
         if (employees.isEmpty()) {
-            println("There is No Employees Yet !")
+            println("There are no employees yet!")
             return
         }
-        for (it in employees) {
-            println("Instructor Details number $i-> ")
-            println("- Employee id : ${it.id}")
-            println("- Employee Name : ${it.name}")
-            println("- Employee age: ${it.age}")
-            println("- Employee Email : ${it.Email}")
-            println("- Employee address : ${it.address}")
-            println("- Employee salary : ${it.Salary}")
-            println("- Employee hireDate : ${it.hireDate}")
+        val horizontalLine = "+------+----------------+-----+-------------------+----------------------+-----------------+---------------------+---------------------"
+        val header = "| No.  |   Employee ID  | Age |       Name        |       Email          |      Address      |      Salary         |    Hire Date     |"
+        println(horizontalLine)
+        println(header)
+        println(horizontalLine)
+        for (employee in employees) {
+            val employeeData = "| %4d | %-14s | %3d | %-17s | %-21s | %-15s | %,17.2f | %-17s |".format(
+                i,
+                employee.id,
+                employee.age,
+                employee.name,
+                employee.Email,
+                employee.address,
+                employee.Salary,
+                employee.hireDate
+            )
+            println(employeeData)
             i++
-            println("_____________________________________")
+            println(horizontalLine)
         }
     }
+
     override fun searchAndGet(num: Int) {
         val Found = employees.find { it.id == num }
         if (Found != null) {
@@ -574,7 +602,7 @@ class Employee:Person() ,validation{
             println("address : ${Found.address}")
             println("hireDate : ${Found.hireDate}")
         } else {
-            println("Employee of Id ${num} Not founded in System !!")
+            println("\tEmployee of Id ${num} Not founded in System !!")
         }
     }
 
@@ -596,9 +624,9 @@ class Employee:Person() ,validation{
                     val newName =readLine() ?: return
                     if (!newName.isNullOrEmpty()) {
                         found.name = newName
-                        println("Name updated successfully.")
+                        println("\tName updated successfully.")
                     } else {
-                        println("Invalid input. Name not updated.")
+                        println("\tInvalid input. Name not updated.")
                     }
                 }
 
@@ -607,9 +635,9 @@ class Employee:Person() ,validation{
                     val newage = readln().toIntOrNull()?:return
                     if (newage > 0 && newage != null) {
                         found.age = newage
-                        println("Age updated successfully.")
+                        println("\tAge updated successfully.")
                     } else {
-                        println("Invalid input. Age not updated.")
+                        println("\tInvalid input. Age not updated.")
                     }
                 }
 
@@ -620,9 +648,9 @@ class Employee:Person() ,validation{
                         registerEmails.remove(found.Email)
                         found.Email = newEmail
                         registerEmails.add(newEmail)
-                        println("Email updated successfully.")
+                        println("\tEmail updated successfully.")
                     } else {
-                        println("Invalid input. Email not updated.")
+                        println("\tInvalid input. Email not updated.")
                     }
                 }
 
@@ -631,9 +659,9 @@ class Employee:Person() ,validation{
                     val salary = readln().toDoubleOrNull()?:return
                     if (salary >= 0 && salary != null) {
                         found.Salary = salary
-                        println("Salary updated successfully.")
+                        println("\tSalary updated successfully.")
                     } else {
-                        println("Invalid input. Salary not updated.")
+                        println("\tInvalid input. Salary not updated.")
                     }
                 }
 
@@ -642,38 +670,38 @@ class Employee:Person() ,validation{
                     val newadaress = readLine() ?: return
                     if (!newadaress.isNullOrEmpty()) {
                         found.address = newadaress
-                        println("address updated successfully.")
+                        println("\taddress updated successfully.")
                     } else {
-                        println("Invalid input. address not updated.")
+                        println("\tInvalid input. address not updated.")
 
                     }
                 }
 
-                else -> println("Invalid field choice. No data updated.")
+                else -> println("\tInvalid field choice. No data updated.")
             }
 
         } else {
-            println("Employee with ID $Id not found in the system.")
+            println("\tEmployee with ID $Id not found in the system.")
         }
     }
 
     override fun remove(Id: Int) {
         if (employees.isEmpty()) {
-            println("List Of Employees Is Empty... ")
+            println("\tList Of Employees Is Empty... ")
             return
         }
         val removeEmployee = employees.find { it.id == Id }
         if (removeEmployee != null) {
             employees.remove(removeEmployee)
             registerEmails.remove(removeEmployee.Email)
-            println("Employee with ID ${removeEmployee.id} removed successfully")
+            println("\tEmployee with ID ${removeEmployee.id} removed successfully..")
         } else {
-            println("Employee with ID ${Id} not found in the system To Remove ")
+            println("\tEmployee with ID ${Id} not found in the system To Remove ")
         }
     }
 }
 
-class Sysytem(){
+class Sysytem{
     //_________________________________________ Student functions__________________________________
 
     private val Stu=Student()
@@ -815,9 +843,9 @@ class Sysytem(){
 fun main(){
     val ob=Sysytem()
     while(true){
-        println("\t\t\t\t\t\t\t\t\t\t\t\t ______________________________")
+        println("\t\t\t\t\t\t\t\t\t\t\t\t  ______________________________")
         println("\t\t\t\t\t\t\t\t\t\t\t\t  Hello in system University")
-        println("\t\t\t\t\t\t\t\t\t\t\t\t ______________________________")
+        println("\t\t\t\t\t\t\t\t\t\t\t\t  ______________________________")
         println("\t\t\t\t\t\t\t\t1-Sign Up As Student\t\t\t\t\t\t\t\t2-Login as student"  )
         println("\t\t\t\t\t\t\t\t3-Sign Up As Instructor\t\t\t\t\t\t\t\t4-Login As Instructor ")
         println("\t\t\t\t\t\t\t\t5-Sign Up As Employee\t\t\t\t\t\t\t\t6-Login As Employee")
